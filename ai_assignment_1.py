@@ -46,20 +46,24 @@ line_to_Bucharest={
 	'Zerind':           493
 }
 
-
 class Traverse:
 
     distance_traveled=0
     city_history=[]
 
     def __init__(self,city) -> None:
+        self.distance_traveled=0
         self.city_history.append(city)
+        if (len(self.city_history)>1) and (DESTINATION in self.city_history) and (DESTINATION not in self.city_history[-1]):
+            self.city_history.clear()
+            self.city_history.append(city)
+            self.distance_traveled=0
     
     def aStar(self) -> tuple:
         """
         Recursively calls itself after finding the lowest cost path
         at each city.\n
-        Returns a Traverse object
+        Returns (distance_traveled, city_history).
         """
         if self.city_history[-1]==DESTINATION: return self;
         paths=[]
@@ -69,18 +73,37 @@ class Traverse:
                 paths.append(city_paths[self.city_history[-1]][i])
         for path in paths:#path=[city,distance]
             costs.append(self.calculate_cost(path))
+        # if not costs:
+        #     print(self.city_history,'|',paths)
         lowest_cost_path=paths[costs.index(min(costs))]
         nextCity=Traverse(lowest_cost_path[0])
-        print("Traveling from", self.city_history[-2],
-            "to", lowest_cost_path[0],
-            "will be a",lowest_cost_path[1],"km trip.")
         self.distance_traveled+=lowest_cost_path[1]
-        nextCity.distance_traveled=self.distance_traveled
         return nextCity.aStar()
 
     def calculate_cost(self,path) -> int:
         """f(n)=g(n)+h(n)"""
         return (self.distance_traveled+path[1])+line_to_Bucharest[path[0]]
+    
+    def trip_distance(self) -> None:
+        """
+        Prints city-to-city travel distance as well as total distance traveled.
+        """
+        total=0
+        itinerary=self.city_history
+        for city in enumerate(itinerary):#city==(index,city name)
+            if itinerary[city[0]]==itinerary[-1]:
+                break
+            for path in city_paths[city[1]]:
+                if path[0] in itinerary[city[0]+1]:
+                    #print(city[1],"|",path[0])
+                    print(itinerary[city[0]],
+                        "->", itinerary[city[0]+1],
+                        "=",path[1],"km")
+                    total+=path[1]
+        print("The total distance traveled will be",total,"km.")
+        return None
+
+
 
 def bfs():
     #@Meike
@@ -90,7 +113,10 @@ def dfs():
     #@Meike
     return None
 
-def find_shortest_route(): #reorganize after commit with bfs and dfs
+def find_shortest_route():
+    """
+    Loops path-finding prompt.
+    """
     while True:
         city=''
         algo=''
@@ -109,25 +135,30 @@ def find_shortest_route(): #reorganize after commit with bfs and dfs
         algo=input("Which algorithm would you like to use? ")
         while algo not in ['A','a','B','b','D','d']:
             algo=input("Incorrect. Please select an algorithm from the list: " )
+        
         if algo=='A' or 'a':
             print("\nYou have chosen to travel from",city,
                 "to",DESTINATION,"using the A* heuristic search.")
             traverser=Traverse(city)
-            traverser=traverser.aStar()
-            print("The total distance traveled will be",traverser.distance_traveled,"km.")
+            traverser.aStar()
+            traverser.trip_distance()
         elif algo=='B' or 'b':
+            print("\nYou have chosen to travel from",city,
+                "to",DESTINATION,"using the Breadth First Search.")
             #do bfs
             pass
         else:
+            print("\nYou have chosen to travel from",city,
+                "to",DESTINATION,"using the Depth First Search.")
             #do dfs
             pass
+
         if input("Type anything to find another route or X to exit: ") in ['X','x']:
             break
     
-
     #print algo + cities visited + distances + total distance
-    #loop or quit
     return 0
 
 #Test beyond this point
 find_shortest_route()
+#does not work when Bucharest is the second city selected
