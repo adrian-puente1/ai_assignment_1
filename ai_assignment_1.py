@@ -46,6 +46,7 @@ line_to_Bucharest={
 	'Zerind':           493
 }
 
+
 class Traverse:
 
     distance_traveled=0
@@ -54,7 +55,6 @@ class Traverse:
     def __init__(self,city) -> None:
         self.city_history.append(city)
     
-    #fix distance traveled
     def aStar(self) -> tuple:
         """
         Recursively calls itself after finding the lowest cost path
@@ -67,13 +67,15 @@ class Traverse:
         for i in range(len(city_paths[self.city_history[-1]])):
             if city_paths[self.city_history[-1]][i][0] not in self.city_history:    #checks that city in city_paths has not been visited
                 paths.append(city_paths[self.city_history[-1]][i])
-        if not paths: return self,False;
         for path in paths:#path=[city,distance]
             costs.append(self.calculate_cost(path))
         lowest_cost_path=paths[costs.index(min(costs))]
         nextCity=Traverse(lowest_cost_path[0])
+        print("Traveling from", self.city_history[-2],
+            "to", lowest_cost_path[0],
+            "will be a",lowest_cost_path[1],"km trip.")
         self.distance_traveled+=lowest_cost_path[1]
-        print(self.distance_traveled)
+        nextCity.distance_traveled=self.distance_traveled
         return nextCity.aStar()
 
     def calculate_cost(self,path) -> int:
@@ -89,23 +91,43 @@ def dfs():
     return None
 
 def find_shortest_route(): #reorganize after commit with bfs and dfs
-  print("Purpose of app here")
-  print("Which city do you want to depart from?")
-  #print list of cities, could be list of keys from city_paths
-  #accept city input
-  print("Which algorithm would you like to use?")
-  #print algos
-  #accept algo input
-  #select algorithm function
-  #path=algo[root_city,0,[]]
-  #print algo + cities visited + distances + total distance
-  #loop or quit
-  return 0
+    while True:
+        city=''
+        algo=''
+        print(
+        """ 
+        This app finds a route from a city to the city of Bucharest.
+        The user provides starting city and routing algorithm as input.
+        The output is the algorithm chosen, cities traveled through,
+        individual distances traveled, and total distance traveled.
+        """)
+        print(list(city_paths.keys()))
+        city=input("Which city do you want to depart from? ")
+        while city not in list(city_paths.keys()):
+            city=input("Incorrect. Please select a city from the list: " )
+        print("\nA -> A* | B -> BFS | D -> DFS")
+        algo=input("Which algorithm would you like to use? ")
+        while algo not in ['A','a','B','b','D','d']:
+            algo=input("Incorrect. Please select an algorithm from the list: " )
+        if algo=='A' or 'a':
+            print("\nYou have chosen to travel from",city,
+                "to",DESTINATION,"using the A* heuristic search.")
+            traverser=Traverse(city)
+            traverser=traverser.aStar()
+            print("The total distance traveled will be",traverser.distance_traveled,"km.")
+        elif algo=='B' or 'b':
+            #do bfs
+            pass
+        else:
+            #do dfs
+            pass
+        if input("Type anything to find another route or X to exit: ") in ['X','x']:
+            break
+    
 
+    #print algo + cities visited + distances + total distance
+    #loop or quit
+    return 0
 
 #Test beyond this point
-tester=Traverse('Arad')
-tester.aStar()
-
-#print(tester.distance_traveled)
-print(tester.city_history)
+find_shortest_route()
