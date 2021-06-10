@@ -3,50 +3,50 @@
 # 06/10/2021
 # Adrian Puente, Meike Buettner, Mohammad Khan
 
-DESTINATION='Bucharest'
+DESTINATION='BUCHAREST'
 city_paths = {
-    'Arad':             [['Zerind', 75], ['Timisoara', 118], ['Sibiu', 140]],
-	'Bucharest':        [['Urziceni', 85], ['Giurgiu', 90], ['Pitesti', 101], ['Fagaras', 211]],
-	'Craiova':          [['Dobreta', 120], ['Pitesti', 138], ['Rimnicu Vilcea', 146]],
-	'Dobreta':          [['Mehadia', 75], ['Craiova', 120]],
-	'Eforie':           [['Hirsova', 86]],
-	'Fagaras':          [['Sibiu', 99], ['Bucharest', 211]],
-	'Giurgiu':          [['Bucharest', 90]],
-	'Hirsova':          [['Eforie', 86], ['Urziceni', 98]],
-	'Iasi':             [['Neamt', 87], ['Vaslui', 92]],
-	'Lugoj':            [['Mehadia', 70], ['Timisoara', 111]],
-	'Mehadia':          [['Lugoj', 70], ['Dobreta', 75]],
-	'Neamt':            [['Iasi', 87]],
-	'Oradea':           [['Zerind', 71], ['Sibiu', 151]],
-	'Pitesti':          [['Rimnicu Vilcea', 97], ['Bucharest', 101], ['Craiova', 138]],
-	'Rimnicu Vilcea':   [['Sibiu', 80], ['Pitesti', 97], ['Craiova', 146]],
-	'Sibiu':            [['Rimnicu Vilcea', 80], ['Fagaras', 99], ['Arad', 140], ['Oradea', 151]],
-	'Timisoara':        [['Lugoj', 111], ['Arad', 118]],
-	'Urziceni':         [['Bucharest', 85], ['Hirsova', 98]],
-	'Vaslui':           [['Iasi', 92], ['Urziceni', 142]],
-	'Zerind':           [['Oradea', 71], ['Arad', 75]]
+    'ARAD':             [['ZERIND', 75], ['TIMISOARA', 118], ['SIBIU', 140]],
+	'BUCHAREST':        [['URZICENI', 85], ['GIURGIU', 90], ['PITESTI', 101], ['FAGARAS', 211]],
+	'CRAIOVA':          [['DOBRETA', 120], ['PITESTI', 138], ['RIMNICU VILCEA', 146]],
+	'DOBRETA':          [['MEHADIA', 75], ['CRAIOVA', 120]],
+	'EFORIE':           [['HIRSOVA', 86]],
+	'FAGARAS':          [['SIBIU', 99], ['BUCHAREST', 211]],
+	'GIURGIU':          [['BUCHAREST', 90]],
+	'HIRSOVA':          [['EFORIE', 86], ['URZICENI', 98]],
+	'IASI':             [['NEAMT', 87], ['VASLUI', 92]],
+	'LUGOJ':            [['MEHADIA', 70], ['TIMISOARA', 111]],
+	'MEHADIA':          [['LUGOJ', 70], ['DOBRETA', 75]],
+	'NEAMT':            [['IASI', 87]],
+	'ORADEA':           [['ZERIND', 71], ['SIBIU', 151]],
+	'PITESTI':          [['RIMNICU VILCEA', 97], ['BUCHAREST', 101], ['CRAIOVA', 138]],
+	'RIMNICU VILCEA':   [['SIBIU', 80], ['PITESTI', 97], ['CRAIOVA', 146]],
+	'SIBIU':            [['RIMNICU VILCEA', 80], ['FAGARAS', 99], ['ARAD', 140], ['ORADEA', 151]],
+	'TIMISOARA':        [['LUGOJ', 111], ['ARAD', 118]],
+	'URZICENI':         [['BUCHAREST', 85], ['HIRSOVA', 98]],
+	'VASLUI':           [['IASI', 92], ['URZICENI', 142]],
+	'ZERIND':           [['ORADEA', 71], ['ARAD', 75]]
 }
 line_to_Bucharest={
-    'Arad':             418,
-	'Bucharest':        0,
-	'Craiova':          239,
-	'Dobreta':          359,
-	'Eforie':           269,
-	'Fagaras':          211,
-	'Giurgiu':          90,
-	'Hirsova':          183,
-	'Iasi':             319,
-	'Lugoj':            504,
-	'Mehadia':          434,
-	'Neamt':            406,
-	'Oradea':           429,
-	'Pitesti':          101,
-	'Rimnicu Vilcea':   198,
-	'Sibiu':            278,
-	'Timisoara':        536,
-	'Urziceni':         85,
-	'Vaslui':           227,
-	'Zerind':           493
+    'ARAD':             418,
+	'BUCHAREST':        0,
+	'CRAIOVA':          239,
+	'DOBRETA':          359,
+	'EFORIE':           269,
+	'FAGARAS':          211,
+	'GIURGIU':          90,
+	'HIRSOVA':          183,
+	'IASI':             319,
+	'LUGOJ':            504,
+	'MEHADIA':          434,
+	'NEAMT':            406,
+	'ORADEA':           429,
+	'PITESTI':          101,
+	'RIMNICU VILCEA':   198,
+	'SIBIU':            278,
+	'TIMISOARA':        536,
+	'URZICENI':         85,
+	'VASLUI':           227,
+	'ZERIND':           493
 }
 
 def BFS(city_paths:dict, start:str, goal:str) -> list:
@@ -97,7 +97,7 @@ def BFS(city_paths:dict, start:str, goal:str) -> list:
 				" path doesn't exist :(")
 	return None
 
-def DFS(city_paths, start, goal) -> list:
+def DFS(city_paths:dict, start:str, goal:str) -> list:
     """
     Accepts a start city and a goal city on city_paths and uses Depth First Search.
     Returns a list containing path of cities traveled through in search.
@@ -204,13 +204,13 @@ class Traverse:
         """f(n)=g(n)+h(n)"""
         return (self.distance_traveled+path[1])+line_to_Bucharest[path[0]]
 ####################    PROGRAMS    #####################
-def find_shortest_route():
+def find_shortest_route() -> None:
     """
     Loops path-finding prompt.
     """
     while True:
-        city=''
-        algo=''
+        # city=''
+        # algo=''
         print(
         """ 
         This app finds a route from a city to the city of Bucharest.
@@ -219,9 +219,9 @@ def find_shortest_route():
         individual distances traveled, and total distance traveled.
         """)
         print(*list(city_paths.keys()))
-        city=input("Which city do you want to depart from? ")
+        city=input("Which city do you want to depart from? ").upper()
         while city not in list(city_paths.keys()):
-            city=input("Incorrect. Please select a city from the list: " )
+            city=input("Incorrect. Please select a city from the list: " ).upper()
         print("\nA -> A* | B -> BFS | D -> DFS")
         algo=input("Which algorithm would you like to use? ").upper()
         while algo not in ['A','B','D']:
@@ -246,7 +246,7 @@ def find_shortest_route():
             break
     return 0
 
-def game():
+def game() -> None:
     #do tic-tac-toe
     return
 
