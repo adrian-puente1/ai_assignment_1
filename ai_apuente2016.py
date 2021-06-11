@@ -1,7 +1,9 @@
 # CAP 4630 Intro to AI
 # Assignment 1
-# 06/10/2021
+# 06/11/2021
 # Adrian Puente, Meike Buettner, Mohammad Khan
+
+from game import *
 
 DESTINATION='BUCHAREST'
 city_paths = {
@@ -209,15 +211,6 @@ def find_shortest_route() -> None:
     Loops path-finding prompt.
     """
     while True:
-        # city=''
-        # algo=''
-        print(
-        """ 
-        This app finds a route from a city to the city of Bucharest.
-        The user provides starting city and routing algorithm as input.
-        The output is the algorithm chosen, cities traveled through,
-        individual distances traveled, and total distance traveled.
-        """)
         print(*list(city_paths.keys()))
         city=input("Which city do you want to depart from? ").upper()
         while city not in list(city_paths.keys()):
@@ -244,17 +237,37 @@ def find_shortest_route() -> None:
             trip_distance(traverser)
         if input("Type anything to find another route or X to exit: ").upper() == 'X':
             break
-    return 0
+    return None
 
 def game() -> None:
-    #do tic-tac-toe
-    return
+    while True:
+        selected=input("Would you like to start first? Y for Yes, N for No: ").upper()
+        while selected not in ['Y','N']:
+            selected=input("Incorrect. Would you like to start first? Y for Yes, N for No: ").upper()
+        if selected=='N':
+            x_player = SmartComputerPlayer('X')
+            o_player = HumanPlayer('O')
+        else:
+            x_player = HumanPlayer('X')
+            o_player = SmartComputerPlayer('O')
+        t = TicTacToe()
+        play(t, x_player, o_player, print_game=True)
+        if input("Type anything to play another game or X to exit: ").upper() == 'X':
+            break
+    return None
 
 while True:
     answer=input("Enter 'Path' to find a route to Bucharest, 'Game' to play Tic-Tac-Toe, or X to exit: ").upper()
     while answer not in ['PATH','GAME','X']:
             answer=input("Incorrect. Please select a program to run: " ).upper()
     if answer == 'PATH':
+        print(
+        """ 
+        This app finds a route from a city to the city of Bucharest.
+        The user provides starting city and routing algorithm as input.
+        The output is the algorithm chosen, cities traveled through,
+        individual distances traveled, and total distance traveled.
+        """)
         find_shortest_route()
     elif answer == 'GAME':
         game()
